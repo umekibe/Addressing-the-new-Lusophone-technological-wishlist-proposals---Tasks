@@ -29,19 +29,24 @@
             ];
 
             { // Function to format the JSON data into the required readable format
+            //function formatData(data) {
+                //const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
             function formatData(data) {
-                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                    
+                const formatter = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                
                 return data.map(entry => {
-                    let [year, month, day] = entry.creation_date.split("-");
-                    return `Article \"${entry.title}\" (Page ID ${entry.page_id}) was created at ${months[parseInt(month) - 1]} ${parseInt(day)}, ${year}.`;
-                }).join('\n');
+                        let date = new Date(entry.creation_date);
+                        let formattedDate = formatter.format(date);
+                        return `Article \"${entry.title}\" (Page ID ${entry.page_id}) was created on ${formattedDate}.`;
+                    }).join('\n');
+                }
+            
             }
                 
             // Display the formatted data on the webpage
             document.getElementById("results").innerText = formatData(data);
                 
-            }
 
         </script>
         <script>
