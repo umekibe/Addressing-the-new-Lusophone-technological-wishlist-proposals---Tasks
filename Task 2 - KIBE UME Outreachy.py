@@ -5,8 +5,10 @@ def check_urls_from_csv(file_path):
     try:
         with open(file_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile)
+            # Skip the header row
+            next(reader)
             for row in reader:
-                if row and row[0].startswith("http"):
+                if row and row[0].strip():  # Check if row exists and isn't empty
                     url = row[0].strip()
                     try:
                         response = requests.get(url, timeout=5)
